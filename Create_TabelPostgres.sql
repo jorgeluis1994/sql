@@ -7,6 +7,8 @@ create table users.users_roles(
 ---get users
 select * from users.users u 
 
+--truncate table users.users
+
 select * from users.users_roles ur 
 
 INSERT INTO users.users
