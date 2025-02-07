@@ -55,8 +55,8 @@ where
 	dv.id_establishment = 8
 	
 ---- Restablecer el valor de la secuencia a 1
---ALTER SEQUENCE acount_id_acount_seq RESTART WITH 1;
+---- ALTER SEQUENCE acount_id_acount_seq RESTART WITH 1;
 ---- Restablecer el valor de la secuencia a 1
---ALTER SEQUENCE acount_id_acount_seq RESTART WITH 1;	
+---- ALTER SEQUENCE acount_id_acount_seq RESTART WITH 1;	
 
 
