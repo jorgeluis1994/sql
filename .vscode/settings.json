@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "173.249.10.18",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Firma Segura",
+            "database": "smc_documng",
+            "username": "smc_user",
+            "password": "T€$t1Ng"
+        }
+    ]
+}

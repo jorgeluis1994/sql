@@ -26,6 +26,15 @@ from
 	"document" d
 where
 	d.id_establishment = 9;
+
+--TOTAL
+
+select
+	count(*)
+from
+	"document" d
+where
+	d.id_establishment = 9;
 	
 --DETALLE DE DOUMENTOS TOTAL
 	
