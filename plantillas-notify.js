@@ -1,7 +1,28 @@
-//Todos los clientes
+//Get clients
 db.clients.find()
 
-//update por nemonic
+
+//Get by estbMnemonic MF
+db.clients.find({
+    "estbMnemonic": "MF"
+})
+
+
+//Count campaning
+db.clients.aggregate([
+    { 
+        $match: { "estbMnemonic": "MF" } // Filtra el documento por "estbMnemonic"
+    },
+    { 
+        $project: { 
+            campaignsCount: { $size: "$channels.email.campaigns" } // Cuenta los elementos dentro de "campaigns"
+        }
+    }
+]);
+
+
+
+//update por nemonic 001-SOLICITUD-FIRMA-USER
 db.clients.updateOne(
     { 
         "estbMnemonic": "MF",
@@ -14,7 +35,9 @@ db.clients.updateOne(
     }
 )
 
-//Fitro por nemonic
+
+
+//Fitro por nemonic 001-SOLICITUD-FIRMA-USER
 db.clients.findOne(
     { 
         "estbMnemonic": "MF",
@@ -25,6 +48,8 @@ db.clients.findOne(
         "_id": 0 
     }
 )
+
+
 
 //Insert client 
 db.clients.insertOne({
@@ -151,5 +176,23 @@ db.clients.insertOne({
 	}
 })
 
+
+
+//Insert plantilla
+db.clients.updateOne(
+    { "estbMnemonic": "MF" }, // Filtro para encontrar el documento correcto
+    { 
+        $push: { 
+            "channels.email.campaigns": {
+                "nemonic": "001-MORE-INFORMATION",
+                "name": "Solicitud de más información",
+                "message": "subject¦MercadoFin: Tipos de Firma Electrónica|title¦Solicitud de firma|sender¦no-reply@firmasegura.digital|type¦firma_digital|body¦<div style='font-size: 22px; margin-top: 20px;'><div style='text-align: center;'><img src='https://dev.mercadofin.com:18080/ipfs/QmNVU4fo7hiFHCt7suaZZ1edgJ5iASDf5QYQVUvBQ2n5op' alt='Logo de MercadoFin' style='max-width: 100%; height: auto;'></div>  <div style='font-family:sans-serif;width:500px;padding:10px'>Estimado(a) _fullName,<br><br> <p>Agradecemos el interés por adquirir información detallada correspondiente al tipo de firma electrónica seleccionada.</p> <p>Contamos con tus datos:</p> <p> <ul><li><b>Correo electrónico:</b> _email </li>  <li><b>Número de contacto:</b> _phone</li> </ul> </p>   <p>📩 Enviaremos la información solicitada en el transcurso de los próximos minutos.</p>  <br>Saludos, <br><br> El equipo de <b>MercadoFin</b></div></div>"
+            }
+        }
+    }
+);
+
+
+
 //Delete por 
-db.clients.deleteOne({ estbMnemonic: "MF" });
+//db.clients.deleteOne({ estbMnemonic: "MF" });
