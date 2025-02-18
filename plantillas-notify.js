@@ -50,6 +50,18 @@ db.clients.findOne(
 )
 
 
+//Filtro por varios nemonic
+db.clients.findOne(
+    { 
+        "estbMnemonic": "MF",
+        "channels.email.campaigns.nemonic": { $in: [""] } // Filtra por varios valores de "nemonic"
+    },
+    { 
+        "channels.email.campaigns.$": 1, // Extrae las campañas que coinciden
+        "_id": 0 
+    }
+);
+
 
 //Insert client 
 db.clients.insertOne({
