@@ -1,0 +1,9 @@
+{
+    "entity":"dotnet add package Microsoft.EntityFrameworkCore --version 9.0.2 --",
+    "SQL Server":"dotnet add package Microsoft.EntityFrameworkCore.SqlServer",
+    "PostgreSQL":"dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL",
+    "MySQL":"dotnet add package Pomelo.EntityFrameworkCore.MySql",
+    "tools":"dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.2",
+    "migration":"dotnet ef migrations add InitialCreate ",
+    "update":"dotnet ef database update"
+}
