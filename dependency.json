@@ -1,9 +1,16 @@
 {
-    "entity":"dotnet add package Microsoft.EntityFrameworkCore --version 9.0.2 --",
-    "SQL Server":"dotnet add package Microsoft.EntityFrameworkCore.SqlServer",
-    "PostgreSQL":"dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL",
-    "MySQL":"dotnet add package Pomelo.EntityFrameworkCore.MySql",
-    "tools":"dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.2",
-    "migration":"dotnet ef migrations add InitialCreate ",
-    "update":"dotnet ef database update"
+  "entity": "dotnet add package Microsoft.EntityFrameworkCore --version 9.0.2 --",
+  "SQL Server": "dotnet add package Microsoft.EntityFrameworkCore.SqlServer",
+  "PostgreSQL": "dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL",
+  "MySQL": "dotnet add package Pomelo.EntityFrameworkCore.MySql",
+  "tools": "dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.2",
+  "migration": "dotnet ef migrations add InitialCreate ",
+  "update": "dotnet ef database update",
+  "create-project": "dotnet new webapi -n MyApi -f net8.0",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=DESKTOP-1QKQK1G;Database=dev;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=DESKTOP-1QKQK1G;Database=dev;User Id=sa;Password=TuContraseña;MultipleActiveResultSets=true;TrustServerCertificate=True"
+  }
 }
