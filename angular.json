@@ -8,3 +8,7 @@ ng generate module auth --route auth --module app.module
 
 //Agergar angular material
 ng add @angular/material
+
+//generar guard sin test
+ng g g auth --skip-tests
+
