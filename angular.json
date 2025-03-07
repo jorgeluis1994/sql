@@ -5,3 +5,6 @@ npm install -g @angular/cli@18
 //generar modulos en angular con su rutas y el modulo
 
 ng generate module auth --route auth --module app.module
+
+//Agergar angular material
+ng add @angular/material
