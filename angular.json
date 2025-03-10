@@ -16,3 +16,8 @@ ng g g auth --skip-tests
 //service
 ng g s auth --module=app
 
+//swagger nestjs
+
+npm install @nestjs/swagger swagger-ui-express --legacy-peer-deps
+
+
