@@ -12,6 +12,21 @@ CREATE TABLE Centros (
 );
 
 
+CREATE TABLE Centers (
+    id_center INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    num_identification VARCHAR(100) NOT NULL,
+    center_type VARCHAR(100),
+    legal_entity_owner VARCHAR(255),
+    legal_entity_manager VARCHAR(255),
+    municipality_location VARCHAR(255),
+    is_free_of_restrictions BOOLEAN,
+    update_date DATE,
+    creator VARCHAR(255)
+);
+
+
+
 CREATE TABLE Plazas (
     id_plaza INT PRIMARY KEY,
     id_center INT,
@@ -25,6 +40,21 @@ CREATE TABLE Plazas (
     n_plazas_paliativas INT,
     FOREIGN KEY (id_center) REFERENCES Centros(id_center)
 );
+
+CREATE TABLE Places (
+    id_place INT PRIMARY KEY,
+    id_center INT,
+    authorized_places INT,
+    contracted_places INT,
+    has_autonomous_places BOOLEAN,
+    num_autonomous_places INT,
+    has_psychogeriatric_places BOOLEAN,
+    num_psychogeriatric_places INT,
+    has_palliative_places BOOLEAN,
+    num_palliative_places INT,
+    FOREIGN KEY (id_center) REFERENCES Centers(id_center)
+);
+
 
 
 CREATE TABLE Usuarios (
