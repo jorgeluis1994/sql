@@ -102,6 +102,37 @@ CREATE TABLE Stays (
 );
 
 
+CREATE TABLE Profesionales (
+    id_profesional INT PRIMARY KEY,           -- Identificador único del profesional
+    id_center INT,                            -- Relación con la tabla Centros
+    codigo_profesional VARCHAR(100),          -- Código o identificador del profesional
+    nombre_profesional VARCHAR(255),          -- Nombre del profesional
+    genero VARCHAR(50),                       -- Género del profesional
+    puesto VARCHAR(255),                      -- Puesto del profesional (Ej. Trabajador/a social)
+    experiencia DECIMAL(3,1),                 -- Años de experiencia del profesional
+    horas_trabajadas INT,                     -- Número de horas trabajadas por el profesional
+    horas_pendientes INT,                     -- Horas de trabajo pendientes del profesional
+    fecha_actualizacion DATE,                 -- Fecha de la última actualización
+    creator VARCHAR(255),                     -- Usuario que realizó la actualización
+    FOREIGN KEY (id_center) REFERENCES Centros(id_center)   -- Relación con la tabla Centros
+);
+
+
+CREATE TABLE Professionals (
+    id_professional INT PRIMARY KEY,           -- Unique identifier for the professional
+    id_center INT,                             -- Relationship with the Centers table
+    professional_code VARCHAR(100),            -- Professional's code or identifier
+    professional_name VARCHAR(255),            -- Name of the professional
+    gender VARCHAR(50),                        -- Gender of the professional
+    position VARCHAR(255),                     -- Professional's position (e.g. Social Worker)
+    experience DECIMAL(3,1),                    -- Professional's years of experience
+    hours_worked INT,                          -- Number of hours worked by the professional
+    hours_pending INT,                         -- Pending work hours of the professional
+    update_date DATE,                          -- Last updated date
+    creator VARCHAR(255),                      -- User who made the update
+    FOREIGN KEY (id_center) REFERENCES Centers(id_center)  -- Relationship with the Centers table
+);
+
 
 
 
