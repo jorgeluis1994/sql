@@ -1,0 +1,23 @@
+
+npm install -g @angular/cli
+npm install -g @angular/cli@18
+
+//generar modulos en angular con su rutas y el modulo
+
+ng generate module auth --route auth --module app.module
+
+//Agergar angular material
+ng add @angular/material
+
+//generar guard sin test
+ng g g auth --skip-tests
+
+
+//service
+ng g s auth --module=app
+
+//swagger nestjs
+
+npm install @nestjs/swagger swagger-ui-express --legacy-peer-deps
+
+
