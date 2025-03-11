@@ -69,6 +69,19 @@ CREATE TABLE Usuarios (
     FOREIGN KEY (id_center) REFERENCES Centros(id_center)
 );
 
+CREATE TABLE Users (
+    id_user INT PRIMARY KEY,
+    id_center INT,
+    num_residents INT,
+    num_female_residents INT,
+    num_residents_over_65 INT,
+    num_dependency_level1 INT,
+    num_dependency_level2 INT,
+    num_dependency_level3 INT,
+    FOREIGN KEY (id_center) REFERENCES Centers(id_center)
+);
+
+
 
 CREATE TABLE Estancias (
     id_estancia INT PRIMARY KEY,
@@ -78,6 +91,16 @@ CREATE TABLE Estancias (
     n_bajas INT,
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 );
+
+CREATE TABLE Stays (
+    id_stay INT PRIMARY KEY,
+    id_user INT,
+    total_stay_days INT,
+    num_discharges INT,
+    num_admissions INT,
+    FOREIGN KEY (id_user) REFERENCES Users(id_user)
+);
+
 
 
 
