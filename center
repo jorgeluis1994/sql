@@ -1,0 +1,73 @@
+--Depuracion centros 
+SELECT 
+    ce.id_establishment AS "Establishment ID",
+    INITCAP(LOWER(REPLACE(c.center_name, '_', ' '))) AS "Center Name",
+    INITCAP(LOWER(REPLACE(
+        CASE 
+            WHEN (UPPER(REPLACE(c.holder_legal_personality, '_', ' ')) IN ('PRIVADA MERCANTIL', 'PRIVADA SIN FIN DE LUCRO')) AND c.num_contracted_places > 0 THEN 'Privado con plazas concertadas'
+            WHEN (UPPER(REPLACE(c.holder_legal_personality, '_', ' ')) IN ('PRIVADA MERCANTIL', 'PRIVADA SIN FIN DE LUCRO')) AND (c.num_contracted_places <= 0) THEN 'Privado sin plazas concertadas'
+            WHEN UPPER(REPLACE(c.holder_legal_personality, '_', ' ')) = 'PUBLICA' THEN 'Pública'
+            WHEN UPPER(REPLACE(c.holder_legal_personality, '_', ' ')) = 'ND' THEN 'Tipo desconocido'
+            ELSE 'Otro tipo'
+        END, '_', ' '))) AS "Ownership Type",
+    INITCAP(LOWER(REPLACE(
+        CASE
+            WHEN c.has_psychogeriatric_places = 'si' OR c.has_paliative_places = 'si' THEN 'Resi psicogeriatría, convalecencia y paliativos'
+            WHEN c.has_autonomous_places = 'si' THEN 'VC y resi autónomos'
+            ELSE 'Resto de residencias'
+        END, '_', ' '))) AS "Residence Type",
+    INITCAP(LOWER(REPLACE(
+        CASE
+            WHEN c.num_contracted_places > 0 AND c.num_contracted_places <= 30 THEN '0 a 30 PLAZAS CONCERTADAS'
+            WHEN c.num_contracted_places > 30 AND c.num_contracted_places <= 59 THEN '30 a 59 PLAZAS CONCERTADAS'
+            WHEN c.num_contracted_places > 59 THEN '60 o más PLAZAS CONCERTADAS'
+            ELSE 'SIN PLAZAS CONCERTADAS'
+        END, '_', ' '))) AS "Contracted Places Size",
+    INITCAP(LOWER(
+        CASE
+            WHEN c.restriction_free_center = 'si' THEN 'SIN RESTRICCIONES'
+            WHEN c.restriction_free_center = 'no' THEN 'CON RESTRICCIONES'
+            ELSE 'RESTO'
+        END
+    )) AS "Restriction Status",
+    COUNT(pe.person_identifier) AS "Number of Residents",
+    SUM(pro.worked_hours) AS "Total Worked Hours",
+    ROUND(SUM(pro.worked_hours)::numeric / (COUNT(pe.person_identifier) * 30), 2) AS "Avg. Daily Hours per Resident",
+    CASE
+        WHEN (SUM(pro.worked_hours)::numeric / (COUNT(pe.person_identifier) * 30)) <= 2.82 THEN '≤ 2.82 hrs/resident/day'
+        WHEN (SUM(pro.worked_hours)::numeric / (COUNT(pe.person_identifier) * 30)) BETWEEN 2.83 AND 3.49 THEN '2.83–3.49 hrs/resident/day'
+        WHEN (SUM(pro.worked_hours)::numeric / (COUNT(pe.person_identifier) * 30)) >= 3.5 THEN '≥ 3.50 hrs/resident/day'
+        ELSE 'Uncategorized'
+    END AS "Staffing Ratio Category",
+    ROUND(AVG(pe.height_cm)::numeric / 100, 2) AS "Average Height",  -- Promedio de altura en metros
+    ROUND(AVG(EXTRACT(year FROM age(to_timestamp((pe.date_of_birth / 1000)::double precision))))::numeric, 2) AS "Average Age",  -- Promedio de edad
+    ROUND(AVG(pe.last_weight)::numeric, 2) AS "Average Weight",  -- Promedio de peso
+    ROUND(
+        CASE
+            WHEN AVG(pe.height_cm) = 0 THEN 0  -- Evita la división por cero, si la altura es 0
+            ELSE (AVG(pe.last_weight)::numeric) / (AVG(pe.height_cm)::numeric / 100)^2
+        END, 2
+    ) AS "Average BMI",  -- Promedio de IMC
+     ROUND(
+        AVG(
+            CASE
+                WHEN pe.last_functional_assessment_date >= pe.admission_date 
+                THEN 
+                    (pe.last_functional_assessment_date - pe.admission_date)::numeric / ((1000 * 60 * 60 * 24)::numeric * 365.25)
+                ELSE 0::numeric
+            END
+        ), 2
+    ) AS "Average Stay Duration (Years)"
+    FROM centers c
+INNER JOIN centers_establishments ce ON ce.center_identifier = c.center_identifier
+INNER JOIN people pe ON pe.center_identifier = c.center_identifier
+INNER JOIN professionals pro ON pro.center_identifier = CAST(c.center_identifier AS text)
+GROUP BY
+    ce.id_establishment,
+    c.center_name,
+    c.holder_legal_personality,
+    c.num_contracted_places,
+    c.has_psychogeriatric_places,
+    c.has_paliative_places,
+    c.has_autonomous_places,
+    c.restriction_free_center
